@@ -7,8 +7,7 @@ def read_data_list(file):
         data_lines.append(line)
     return data_lines
 
-def is_safe(report):
-    levels = list(map(int, report.split()))
+def is_safe(levels):    
     
     if len(levels) < 2:
         return False  # A report with fewer than 2 levels can't be evaluated
@@ -22,25 +21,39 @@ def is_safe(report):
 
     return (increasing or decreasing) and valid_differences
 
+def can_be_safe_with_one_removal(levels):
+    for i in range(len(levels)):
+        # Create a new list without the i-th level
+        new_levels = levels[:i] + levels[i + 1:]
+        if is_safe(new_levels):
+            return True
+    return False
+
 def analyze_report(reports):
     safe_list = []
     unsafe_list = []
+    safe_list_change=[]
+    unsafe_list_change=[]
     for report in reports:
-        if is_safe(report):
+        levels = list(map(int, report.split()))
+        if is_safe(levels):
             safe_list.append(report)
         else:
             unsafe_list.append(report)
+        if can_be_safe_with_one_removal(levels):
+            safe_list_change.append(report)
+        else:
+            unsafe_list_change.append(report)
+    return safe_list, unsafe_list, safe_list_change, unsafe_list_change
 
-    return safe_list, unsafe_list
 
 # Example usage
 if __name__ == "__main__":
     # Example report data
     reports = read_data_list("input-2")
-    safe_list, unsafe_list = analyze_report(reports)
+    safe_list, unsafe_list, safe_list_change, unsafe_list_change = analyze_report(reports)
 
-    print("Safe Reports:")
-    print(str(len(safe_list)))
-
-    print("\nUnsafe Reports:")
-    print(str(len(unsafe_list)))
+    print("Safe Reports     : " + str(len(safe_list)) )
+    print("Unsafe Reports   : " + str(len(unsafe_list)))
+    print("Safe Reports after change   : " + str(len(safe_list_change)))
+    print("Unsafe Reports after change : " + str(len(unsafe_list_change)))
