@@ -10,10 +10,10 @@ def read_data_list(file):
     return left_nums,right_nums
 
 def calculate_total_distance(left_dist, right_dist):
-    # Check if both sets are equal
+    # Check if both len are equal
     if left_dist == right_dist:
         print("The two lists doesn't contain the equal no of elements.")    
-    # Sort both lists
+    # Sort the lists
     left_sorted = sorted(left_dist)
     right_sorted = sorted(right_dist)
     
