@@ -44,15 +44,13 @@ def find_xmas_in_x(grid):
     cols = len(grid[0])
     count = 0
 
-    # Iterate through the grid, avoiding the borders
     for r in range(1, rows - 1):
         for c in range(1, cols - 1):
             if grid[r][c] == 'A':    # Check char is "A"
+                # Check MAS in reverse as well
                 if ((grid[r - 1][c - 1] == 'M' and grid[r + 1][c + 1] == 'S') or (grid[r - 1][c - 1] == 'S' and grid[r + 1][c + 1] == 'M')) and ((grid[r - 1][c + 1] == 'M' and grid[r + 1][c - 1] == 'S') or (grid[r - 1][c + 1] == 'S' and grid[r + 1][c - 1] == 'M')) :
                     count += 1
     return count
-
-
 
 # Example usage
 if __name__ == "__main__":
